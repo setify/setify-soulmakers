@@ -4,8 +4,8 @@
  * Plugin URI:        https://soulmakers.de
  * Description:       Soulmakers WordPress Plugin - Erweiterte Funktionalitäten für die Soulmakers Website.
  * Version:           1.0.0
- * Author:            Soulmakers
- * Author URI:        https://soulmakers.de
+ * Author:            Setify
+ * Author URI:        https://setify.io
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       soulmakers

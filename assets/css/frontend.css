@@ -10,106 +10,19 @@
    ========================================================================== */
 
 :root {
-    /* Farben */
-    --soulmakers-primary: #2c3e50;
-    --soulmakers-secondary: #3498db;
-    --soulmakers-accent: #e74c3c;
-    --soulmakers-success: #27ae60;
-    --soulmakers-warning: #f39c12;
-    --soulmakers-error: #e74c3c;
-
-    /* Text */
-    --soulmakers-text-primary: #2c3e50;
-    --soulmakers-text-secondary: #7f8c8d;
-    --soulmakers-text-light: #ffffff;
-
-    /* Hintergründe */
-    --soulmakers-bg-light: #ffffff;
-    --soulmakers-bg-grey: #f8f9fa;
-    --soulmakers-bg-dark: #2c3e50;
-
-    /* Abstände */
-    --soulmakers-spacing-xs: 0.25rem;
-    --soulmakers-spacing-sm: 0.5rem;
-    --soulmakers-spacing-md: 1rem;
-    --soulmakers-spacing-lg: 1.5rem;
-    --soulmakers-spacing-xl: 2rem;
-
-    /* Border Radius */
-    --soulmakers-radius-sm: 4px;
-    --soulmakers-radius-md: 8px;
-    --soulmakers-radius-lg: 12px;
-
-    /* Schatten */
-    --soulmakers-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --soulmakers-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --soulmakers-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
-
-    /* Übergänge */
-    --soulmakers-transition: 0.3s ease;
+  /* Farben */
 }
 
 /* ==========================================================================
    Basis-Styles
    ========================================================================== */
 
-.soulmakers-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--soulmakers-spacing-md);
-}
-
 /* ==========================================================================
    Komponenten
    ========================================================================== */
 
-/* Buttons */
-.soulmakers-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--soulmakers-spacing-sm);
-    padding: var(--soulmakers-spacing-sm) var(--soulmakers-spacing-lg);
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.5;
-    text-decoration: none;
-    border: none;
-    border-radius: var(--soulmakers-radius-md);
-    cursor: pointer;
-    transition: var(--soulmakers-transition);
-}
-
-.soulmakers-btn--primary {
-    background-color: var(--soulmakers-primary);
-    color: var(--soulmakers-text-light);
-}
-
-.soulmakers-btn--primary:hover {
-    background-color: var(--soulmakers-secondary);
-}
-
-.soulmakers-btn--secondary {
-    background-color: var(--soulmakers-secondary);
-    color: var(--soulmakers-text-light);
-}
-
-/* ==========================================================================
-   Utilities
-   ========================================================================== */
-
-.soulmakers-hidden {
-    display: none !important;
-}
-
-.soulmakers-sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
+@media (max-width: 767px) {
+  [id^="tmea-shape-divider-"] svg {
+    height: 40px !important;
+  }
 }
