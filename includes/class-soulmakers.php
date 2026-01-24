@@ -38,6 +38,13 @@ final class Soulmakers {
     public ?Soulmakers_Frontend $frontend = null;
 
     /**
+     * Integrations-Instanz
+     *
+     * @var Soulmakers_Integrations|null
+     */
+    public ?Soulmakers_Integrations $integrations = null;
+
+    /**
      * Singleton-Instanz zurückgeben
      *
      * @return Soulmakers
@@ -63,6 +70,7 @@ final class Soulmakers {
     private function load_dependencies(): void {
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-admin.php';
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-frontend.php';
+        require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-integrations.php';
     }
 
     /**
@@ -79,6 +87,9 @@ final class Soulmakers {
 
         // Frontend initialisieren
         $this->frontend = new Soulmakers_Frontend();
+
+        // Plugin-Integrationen initialisieren
+        $this->integrations = new Soulmakers_Integrations();
     }
 
     /**
