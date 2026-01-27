@@ -23,7 +23,7 @@ if (! defined('ABSPATH')) {
 /**
  * Plugin-Konstanten definieren
  */
-define('SOULMAKERS_VERSION', '1.0.0');
+define('SOULMAKERS_VERSION', '1.0.1');
 define('SOULMAKERS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SOULMAKERS_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('SOULMAKERS_PLUGIN_BASENAME', plugin_basename(__FILE__));
