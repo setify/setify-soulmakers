@@ -65,7 +65,11 @@ class Soulmakers_Admin {
      * @param string $hook_suffix Aktueller Admin-Seiten-Hook.
      */
     public function enqueue_styles( string $hook_suffix ): void {
-        // Admin-CSS auf allen Admin-Seiten laden
+        // Nur auf Soulmakers-Admin-Seiten laden
+        if ( strpos( $hook_suffix, 'soulmakers' ) === false ) {
+            return;
+        }
+
         wp_enqueue_style(
             'soulmakers-admin',
             SOULMAKERS_ASSETS_URL . 'css/admin.css',
@@ -73,7 +77,6 @@ class Soulmakers_Admin {
             SOULMAKERS_VERSION
         );
 
-        // Select2 CSS
         wp_enqueue_style(
             'soulmakers-select2',
             SOULMAKERS_ASSETS_URL . 'vendor/select2/select2.min.css',

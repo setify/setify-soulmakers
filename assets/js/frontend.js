@@ -19,6 +19,7 @@
         config: {
             ajaxUrl: soulmakersFrontend.ajaxUrl || '',
             nonce: soulmakersFrontend.nonce || '',
+            version: soulmakersFrontend.version || '1.0.0',
             i18n: soulmakersFrontend.i18n || {}
         },
 
@@ -39,7 +40,7 @@
                 '%c Soulmakers Frontend erfolgreich geladen! ',
                 'background: #2c3e50; color: #fff; padding: 5px 10px; border-radius: 4px; font-weight: bold;'
             );
-            console.log('Version: ' + '1.0.0');
+            console.log('Version: ' + this.config.version);
         },
 
         /**
@@ -50,11 +51,12 @@
         },
 
         /**
-         * Select2 initialisieren
+         * Select2 initialisieren (nur wenn Elements vorhanden)
          */
         initSelect2: function() {
-            if (typeof $.fn.select2 !== 'undefined') {
-                $('.soulmakers-select2').select2({
+            var $elements = $('.soulmakers-select2');
+            if ($elements.length && typeof $.fn.select2 !== 'undefined') {
+                $elements.select2({
                     width: '100%',
                     placeholder: 'Bitte auswählen...'
                 });

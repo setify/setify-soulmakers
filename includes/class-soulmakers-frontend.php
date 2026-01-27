@@ -43,8 +43,8 @@ class Soulmakers_Frontend {
             SOULMAKERS_VERSION
         );
 
-        // Select2 CSS (falls im Frontend benötigt)
-        wp_enqueue_style(
+        // Vendor-Libraries nur registrieren (laden bei Bedarf via wp_enqueue_style)
+        wp_register_style(
             'soulmakers-select2',
             SOULMAKERS_ASSETS_URL . 'vendor/select2/select2.min.css',
             array(),
@@ -56,8 +56,8 @@ class Soulmakers_Frontend {
      * Frontend-Scripts einbinden
      */
     public function enqueue_scripts(): void {
-        // SweetAlert2
-        wp_enqueue_script(
+        // Vendor-Libraries nur registrieren (laden bei Bedarf via wp_enqueue_script)
+        wp_register_script(
             'soulmakers-sweetalert2',
             SOULMAKERS_ASSETS_URL . 'vendor/sweetalert2/sweetalert2.min.js',
             array(),
@@ -65,8 +65,7 @@ class Soulmakers_Frontend {
             true
         );
 
-        // Select2
-        wp_enqueue_script(
+        wp_register_script(
             'soulmakers-select2',
             SOULMAKERS_ASSETS_URL . 'vendor/select2/select2.min.js',
             array( 'jquery' ),
@@ -74,11 +73,11 @@ class Soulmakers_Frontend {
             true
         );
 
-        // Frontend JS
+        // Frontend JS - nur jQuery als Abhängigkeit, Vendor-Libraries bei Bedarf
         wp_enqueue_script(
             'soulmakers-frontend',
             SOULMAKERS_ASSETS_URL . 'js/frontend.js',
-            array( 'jquery', 'soulmakers-sweetalert2', 'soulmakers-select2' ),
+            array( 'jquery' ),
             SOULMAKERS_VERSION,
             true
         );
@@ -90,6 +89,7 @@ class Soulmakers_Frontend {
             array(
                 'ajaxUrl' => admin_url( 'admin-ajax.php' ),
                 'nonce'   => wp_create_nonce( 'soulmakers_frontend_nonce' ),
+                'version' => SOULMAKERS_VERSION,
                 'i18n'    => array(
                     'confirm' => __( 'Bestätigen', 'soulmakers' ),
                     'cancel'  => __( 'Abbrechen', 'soulmakers' ),
