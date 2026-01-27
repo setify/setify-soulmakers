@@ -77,15 +77,22 @@ final class Soulmakers {
      * Hooks initialisieren
      */
     private function init_hooks(): void {
+        add_action( 'plugins_loaded', array( $this, 'on_plugins_loaded' ) );
         add_action( 'init', array( $this, 'init' ) );
-        add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
+    }
+
+    /**
+     * Nach dem Laden aller Plugins initialisieren
+     */
+    public function on_plugins_loaded(): void {
+        $this->load_textdomain();
 
         // Admin initialisieren
         if ( is_admin() ) {
             $this->admin = new Soulmakers_Admin();
         }
 
-        // Frontend initialisieren
+        // Frontend initialisieren (auch im Admin für AJAX)
         $this->frontend = new Soulmakers_Frontend();
 
         // Plugin-Integrationen initialisieren
