@@ -10,7 +10,16 @@
    ========================================================================== */
 
 :root {
-  /* Farben */
+  /* Brand-Farben */
+  --color-coffee-bean: #1C1003;
+  --color-dark-coffee: #271705;
+  --color-deep-walnut: #5A4632;
+  --color-dusty-taupe: #9A8D77;
+  --color-khaki-beige: #C1B7A5;
+  --color-bone: #E4DCCF;
+  --color-brandy: #962F10;
+  --color-reddish-brown: #99422A;
+  --color-terracotta-clay: #AF553D;
 }
 
 /* ==========================================================================
