@@ -80,9 +80,9 @@ class Soulmakers_Shortcodes {
         // ACF-Feld auslesen
         $stored_code = get_field( 'global_access_code', get_the_ID() );
 
-        // Kein Code im ACF-Feld = nichts ausgeben
+        // Kein Code im ACF-Feld = Zugang gewährt
         if ( empty( $stored_code ) ) {
-            return '';
+            return empty( $content ) ? '1' : do_shortcode( $content );
         }
 
         // URL-Parameter auslesen
@@ -90,7 +90,7 @@ class Soulmakers_Shortcodes {
 
         // Codes vergleichen
         if ( $stored_code === $url_code ) {
-            return empty( $content ) ? 'true' : do_shortcode( $content );
+            return empty( $content ) ? '1' : do_shortcode( $content );
         }
 
         return '';
