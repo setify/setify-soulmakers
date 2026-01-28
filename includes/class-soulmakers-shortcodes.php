@@ -86,7 +86,7 @@ class Soulmakers_Shortcodes {
         }
 
         // URL-Parameter auslesen
-        $url_code = isset( $_GET['access_code'] ) ? sanitize_text_field( $_GET['access_code'] ) : '';
+        $url_code = isset( $_GET['code'] ) ? sanitize_text_field( $_GET['code'] ) : '';
 
         // Codes vergleichen
         if ( $stored_code === $url_code ) {
