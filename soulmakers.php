@@ -28,6 +28,7 @@ define('SOULMAKERS_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('SOULMAKERS_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('SOULMAKERS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('SOULMAKERS_ASSETS_URL', SOULMAKERS_PLUGIN_URL . 'assets/');
+define('SOULMAKERS_API_KEY', '145b4c14-4807-44bb-bb52-85b155aa06af');
 
 /**
  * Autoloader für Plugin-Klassen
