@@ -45,6 +45,13 @@ final class Soulmakers {
     public ?Soulmakers_Integrations $integrations = null;
 
     /**
+     * Shortcodes-Instanz
+     *
+     * @var Soulmakers_Shortcodes|null
+     */
+    public ?Soulmakers_Shortcodes $shortcodes = null;
+
+    /**
      * Singleton-Instanz zurückgeben
      *
      * @return Soulmakers
@@ -71,6 +78,7 @@ final class Soulmakers {
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-admin.php';
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-frontend.php';
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-integrations.php';
+        require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-shortcodes.php';
     }
 
     /**
@@ -103,6 +111,9 @@ final class Soulmakers {
      * Plugin initialisieren
      */
     public function init(): void {
+        // Shortcodes registrieren
+        $this->shortcodes = new Soulmakers_Shortcodes();
+
         do_action( 'soulmakers_init' );
     }
 
