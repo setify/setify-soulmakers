@@ -28,6 +28,7 @@ class Soulmakers_Shortcodes {
      */
     private function register_shortcodes(): void {
         add_shortcode( 'soulmaker_owner', array( $this, 'shortcode_soulmaker_owner' ) );
+        add_shortcode( 'soulmaker_access', array( $this, 'shortcode_soulmaker_access' ) );
     }
 
     /**
@@ -61,6 +62,35 @@ class Soulmakers_Shortcodes {
         // Admin oder Post-Autor?
         if ( current_user_can( 'administrator' ) || $current_user_id === $post_author_id ) {
             return do_shortcode( $content );
+        }
+
+        return '';
+    }
+
+    /**
+     * Shortcode: Prüft ob URL-Parameter mit ACF-Feld übereinstimmt
+     *
+     * Verwendung: [soulmaker_access]Geschützter Inhalt[/soulmaker_access]
+     *
+     * @param array  $atts    Shortcode-Attribute.
+     * @param string $content Eingeschlossener Inhalt.
+     * @return string
+     */
+    public function shortcode_soulmaker_access( array $atts, string $content = null ): string {
+        // ACF-Feld auslesen
+        $stored_code = get_field( 'global_access_code', get_the_ID() );
+
+        // Kein Code im ACF-Feld = nichts ausgeben
+        if ( empty( $stored_code ) ) {
+            return '';
+        }
+
+        // URL-Parameter auslesen
+        $url_code = isset( $_GET['access_code'] ) ? sanitize_text_field( $_GET['access_code'] ) : '';
+
+        // Codes vergleichen
+        if ( $stored_code === $url_code ) {
+            return empty( $content ) ? 'true' : do_shortcode( $content );
         }
 
         return '';
