@@ -182,6 +182,47 @@ class Soulmakers_Mail {
     }
 
     /**
+     * Send profile created email
+     *
+     * @param string $to            Recipient email.
+     * @param string $firstname     First name for placeholder.
+     * @param string $lastname      Last name for placeholder.
+     * @param string $email         Email for placeholder.
+     * @param string $business_name Business name for placeholder.
+     * @param int    $post_id       Post ID for URL generation.
+     * @return bool
+     */
+    public function send_profile_created( string $to, string $firstname, string $lastname, string $email = '', string $business_name = '', int $post_id = 0 ): bool {
+        if ( ! function_exists( 'get_field' ) ) {
+            return false;
+        }
+
+        $subject = get_field( 'option_mail_subject_profile_created', 'option' );
+        $message = get_field( 'option_mail_message_profile_created', 'option' );
+
+        if ( empty( $subject ) || empty( $message ) ) {
+            return false;
+        }
+
+        $profile_url      = $post_id ? get_permalink( $post_id ) : '';
+        $profile_edit_url = $post_id ? add_query_arg( 'mode', 'edit', get_permalink( $post_id ) ) : '';
+
+        $placeholders = array(
+            '{firstname}'        => esc_html( $firstname ),
+            '{lastname}'         => esc_html( $lastname ),
+            '{email}'            => esc_html( $email ),
+            '{business_name}'    => esc_html( $business_name ),
+            '{profile_url}'      => esc_url( $profile_url ),
+            '{profile_edit_url}' => esc_url( $profile_edit_url ),
+        );
+
+        $subject = str_replace( array_keys( $placeholders ), array_values( $placeholders ), $subject );
+        $message = str_replace( array_keys( $placeholders ), array_values( $placeholders ), $message );
+
+        return $this->send( $to, $subject, $message );
+    }
+
+    /**
      * Get email template
      *
      * @param string $subject Email subject.

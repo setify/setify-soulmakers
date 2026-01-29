@@ -142,6 +142,9 @@ class Soulmakers_Api {
         // ACF-Felder speichern
         $this->save_acf_fields( $post_id, $params );
 
+        // E-Mail an Soulmaker senden
+        $this->send_profile_created_email( $params, $post_id );
+
         return new WP_REST_Response(
             array(
                 'success' => true,
@@ -150,6 +153,25 @@ class Soulmakers_Api {
             ),
             201
         );
+    }
+
+    /**
+     * E-Mail nach Profilerstellung senden
+     *
+     * @param array $params  Request-Parameter.
+     * @param int   $post_id Post-ID für URL-Generierung.
+     */
+    private function send_profile_created_email( array $params, int $post_id ): void {
+        $email         = sanitize_email( $params['email'] ?? '' );
+        $firstname     = sanitize_text_field( $params['firstname'] ?? '' );
+        $lastname      = sanitize_text_field( $params['lastname'] ?? '' );
+        $business_name = sanitize_text_field( $params['business_name'] ?? '' );
+
+        if ( empty( $email ) ) {
+            return;
+        }
+
+        Soulmakers_Mail::instance()->send_profile_created( $email, $firstname, $lastname, $email, $business_name, $post_id );
     }
 
     /**
