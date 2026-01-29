@@ -102,9 +102,15 @@ class Soulmakers_Api {
             sanitize_text_field( $params['lastname'] )
         );
 
+        // Post-Slug erstellen (vorname-nachname)
+        $post_slug = sanitize_title(
+            $params['firstname'] . '-' . $params['lastname']
+        );
+
         // Post-Daten vorbereiten
         $post_data = array(
             'post_title'  => $post_title,
+            'post_name'   => $post_slug,
             'post_type'   => 'soulmaker',
             'post_status' => 'publish',
         );
