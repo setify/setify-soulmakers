@@ -29,6 +29,42 @@ class Soulmakers_Frontend {
     private function init_hooks(): void {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+        add_action( 'template_redirect', array( $this, 'redirect_to_profile' ) );
+    }
+
+    /**
+     * Weiterleitung zum eigenen Soulmaker-Profil
+     */
+    public function redirect_to_profile(): void {
+        // Nur für /redirect-to-profile
+        $request_uri = trim( parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH ), '/' );
+        if ( $request_uri !== 'redirect-to-profile' ) {
+            return;
+        }
+
+        // Nicht eingeloggt → zur Login-Seite
+        if ( ! is_user_logged_in() ) {
+            wp_redirect( wp_login_url( home_url( '/redirect-to-profile' ) ) );
+            exit;
+        }
+
+        // Soulmaker-Post des aktuellen Benutzers finden
+        $user_id = get_current_user_id();
+        $posts   = get_posts( array(
+            'post_type'      => 'soulmaker',
+            'author'         => $user_id,
+            'posts_per_page' => 1,
+            'post_status'    => 'publish',
+        ) );
+
+        if ( ! empty( $posts ) ) {
+            wp_redirect( get_permalink( $posts[0]->ID ) );
+            exit;
+        }
+
+        // Kein Profil gefunden → zur Startseite
+        wp_redirect( home_url() );
+        exit;
     }
 
     /**
