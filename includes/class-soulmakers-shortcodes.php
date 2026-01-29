@@ -42,11 +42,6 @@ class Soulmakers_Shortcodes {
      * @return string
      */
     public function shortcode_soulmaker_owner( array $atts, string $content = null ): string {
-        // Kein Inhalt = nichts ausgeben
-        if ( empty( $content ) ) {
-            return '';
-        }
-
         // Nicht eingeloggt = nichts ausgeben
         if ( ! is_user_logged_in() ) {
             return '';
@@ -62,7 +57,7 @@ class Soulmakers_Shortcodes {
 
         // Admin oder Post-Autor?
         if ( current_user_can( 'administrator' ) || $current_user_id === $post_author_id ) {
-            return do_shortcode( $content );
+            return empty( $content ) ? '1' : do_shortcode( $content );
         }
 
         return '';
