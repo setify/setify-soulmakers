@@ -11,15 +11,23 @@
 
 :root {
   /* Brand-Farben */
-  --color-coffee-bean: #1C1003;
+  --color-coffee-bean: #1c1003;
   --color-dark-coffee: #271705;
-  --color-deep-walnut: #5A4632;
-  --color-dusty-taupe: #9A8D77;
-  --color-khaki-beige: #C1B7A5;
-  --color-bone: #E4DCCF;
-  --color-brandy: #962F10;
-  --color-reddish-brown: #99422A;
-  --color-terracotta-clay: #AF553D;
+  --color-deep-walnut: #5a4632;
+  --color-dusty-taupe: #9a8d77;
+  --color-khaki-beige: #c1b7a5;
+  --color-bone: #e4dccf;
+  --color-accent: #cd7f5f;
+  --color-brandy: #962f10;
+  --color-reddish-brown: #99422a;
+  --color-terracotta-clay: #af553d;
+
+  /* Grautöne */
+  --color-carbon-black: #1C1D1F;
+  --color-iron-grey: #494C51;
+  --color-cool-steel: #A0A3A7;
+  --color-pale-slate: #CCCED2;
+  --color-platinum: #E9EBEC;
 }
 
 /* ==========================================================================
