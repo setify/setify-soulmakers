@@ -59,6 +59,13 @@ final class Soulmakers {
     public ?Soulmakers_Api $api = null;
 
     /**
+     * Mail-Instanz
+     *
+     * @var Soulmakers_Mail|null
+     */
+    public ?Soulmakers_Mail $mail = null;
+
+    /**
      * Singleton-Instanz zurückgeben
      *
      * @return Soulmakers
@@ -87,6 +94,7 @@ final class Soulmakers {
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-integrations.php';
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-shortcodes.php';
         require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-api.php';
+        require_once SOULMAKERS_PLUGIN_DIR . 'includes/class-soulmakers-mail.php';
     }
 
     /**
@@ -116,6 +124,9 @@ final class Soulmakers {
 
         // REST API initialisieren
         $this->api = new Soulmakers_Api();
+
+        // Mail initialisieren
+        $this->mail = Soulmakers_Mail::instance();
     }
 
     /**
