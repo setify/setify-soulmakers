@@ -30,6 +30,7 @@ class Soulmakers_Shortcodes {
         add_shortcode( 'soulmaker_owner', array( $this, 'shortcode_soulmaker_owner' ) );
         add_shortcode( 'soulmaker_access', array( $this, 'shortcode_soulmaker_access' ) );
         add_shortcode( 'soulmaker_edit_url', array( $this, 'shortcode_soulmaker_edit_url' ) );
+        add_shortcode( 'soulmaker_my_profile_url', array( $this, 'shortcode_soulmaker_my_profile_url' ) );
     }
 
     /**
@@ -108,5 +109,37 @@ class Soulmakers_Shortcodes {
         }
 
         return add_query_arg( 'mode', 'edit', $permalink );
+    }
+
+    /**
+     * Shortcode: Gibt URL zum Soulmaker-Post des eingeloggten Users zurück
+     *
+     * Verwendung: [soulmaker_my_profile_url]
+     *
+     * @param array $atts Shortcode-Attribute.
+     * @return string
+     */
+    public function shortcode_soulmaker_my_profile_url( array $atts ): string {
+        if ( ! is_user_logged_in() ) {
+            return '';
+        }
+
+        $current_user_id = get_current_user_id();
+
+        $posts = get_posts(
+            array(
+                'post_type'      => 'soulmaker',
+                'posts_per_page' => 1,
+                'author'         => $current_user_id,
+                'post_status'    => 'publish',
+                'fields'         => 'ids',
+            )
+        );
+
+        if ( empty( $posts ) ) {
+            return '';
+        }
+
+        return get_permalink( $posts[0] );
     }
 }
