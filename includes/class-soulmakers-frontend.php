@@ -34,6 +34,81 @@ class Soulmakers_Frontend {
         // Soulmaker-Rolle: Admin-Bereich sperren
         add_filter( 'show_admin_bar', array( $this, 'hide_admin_bar_for_soulmakers' ) );
         add_action( 'admin_init', array( $this, 'block_admin_for_soulmakers' ) );
+
+        // SVG-IDs eindeutig machen (verhindert Clip-Path-Konflikte)
+        add_filter( 'the_content', array( $this, 'make_svg_ids_unique_in_content' ), 99 );
+        add_filter( 'elementor/frontend/the_content', array( $this, 'make_svg_ids_unique_in_content' ), 99 );
+    }
+
+    /**
+     * SVG-Zähler für eindeutige IDs
+     *
+     * @var int
+     */
+    private static int $svg_counter = 0;
+
+    /**
+     * SVG-IDs im Content eindeutig machen
+     *
+     * @param string $content Der Content.
+     * @return string
+     */
+    public function make_svg_ids_unique_in_content( string $content ): string {
+        return preg_replace_callback(
+            '/<svg[^>]*>.*?<\/svg>/s',
+            array( $this, 'make_svg_ids_unique' ),
+            $content
+        );
+    }
+
+    /**
+     * Einzelnes SVG: IDs eindeutig machen
+     *
+     * @param array $matches Regex-Matches.
+     * @return string
+     */
+    private function make_svg_ids_unique( array $matches ): string {
+        self::$svg_counter++;
+        $svg_content = $matches[0];
+        $counter     = self::$svg_counter;
+
+        // IDs eindeutig machen
+        $svg_content = preg_replace_callback(
+            '/id="([^"]+)"/',
+            function ( $id_matches ) use ( $counter ) {
+                return 'id="' . $id_matches[1] . '-' . $counter . '"';
+            },
+            $svg_content
+        );
+
+        // Referenzen aktualisieren (url(#...))
+        $svg_content = preg_replace_callback(
+            '/url\(#([^)]+)\)/',
+            function ( $url_matches ) use ( $counter ) {
+                return 'url(#' . $url_matches[1] . '-' . $counter . ')';
+            },
+            $svg_content
+        );
+
+        // xlink:href Referenzen aktualisieren
+        $svg_content = preg_replace_callback(
+            '/xlink:href="#([^"]+)"/',
+            function ( $href_matches ) use ( $counter ) {
+                return 'xlink:href="#' . $href_matches[1] . '-' . $counter . '"';
+            },
+            $svg_content
+        );
+
+        // href Referenzen aktualisieren (moderne SVGs)
+        $svg_content = preg_replace_callback(
+            '/href="#([^"]+)"/',
+            function ( $href_matches ) use ( $counter ) {
+                return 'href="#' . $href_matches[1] . '-' . $counter . '"';
+            },
+            $svg_content
+        );
+
+        return $svg_content;
     }
 
     /**
