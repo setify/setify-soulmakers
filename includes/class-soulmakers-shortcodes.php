@@ -31,6 +31,7 @@ class Soulmakers_Shortcodes {
         add_shortcode( 'soulmaker_access', array( $this, 'shortcode_soulmaker_access' ) );
         add_shortcode( 'soulmaker_edit_url', array( $this, 'shortcode_soulmaker_edit_url' ) );
         add_shortcode( 'soulmaker_my_profile_url', array( $this, 'shortcode_soulmaker_my_profile_url' ) );
+        add_shortcode( 'soulmaker_is_logged_in', array( $this, 'shortcode_is_logged_in' ) );
     }
 
     /**
@@ -141,5 +142,17 @@ class Soulmakers_Shortcodes {
         }
 
         return get_permalink( $posts[0] );
+    }
+
+    /**
+     * Shortcode: Gibt 1 zurück wenn User eingeloggt ist
+     *
+     * Verwendung: [soulmaker_is_logged_in]
+     *
+     * @param array $atts Shortcode-Attribute.
+     * @return string
+     */
+    public function shortcode_is_logged_in( array $atts ): string {
+        return is_user_logged_in() ? '1' : '';
     }
 }
