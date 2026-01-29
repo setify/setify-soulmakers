@@ -29,6 +29,7 @@ class Soulmakers_Shortcodes {
     private function register_shortcodes(): void {
         add_shortcode( 'soulmaker_owner', array( $this, 'shortcode_soulmaker_owner' ) );
         add_shortcode( 'soulmaker_access', array( $this, 'shortcode_soulmaker_access' ) );
+        add_shortcode( 'soulmaker_edit_url', array( $this, 'shortcode_soulmaker_edit_url' ) );
     }
 
     /**
@@ -94,5 +95,23 @@ class Soulmakers_Shortcodes {
         }
 
         return '';
+    }
+
+    /**
+     * Shortcode: Gibt Permalink mit mode=edit Parameter zurück
+     *
+     * Verwendung: [soulmaker_edit_url]
+     *
+     * @param array $atts Shortcode-Attribute.
+     * @return string
+     */
+    public function shortcode_soulmaker_edit_url( array $atts ): string {
+        $permalink = get_permalink();
+
+        if ( ! $permalink ) {
+            return '';
+        }
+
+        return add_query_arg( 'mode', 'edit', $permalink );
     }
 }
