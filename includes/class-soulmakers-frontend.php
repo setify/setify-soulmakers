@@ -30,6 +30,54 @@ class Soulmakers_Frontend {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
         add_action( 'template_redirect', array( $this, 'redirect_to_profile' ) );
+
+        // Soulmaker-Rolle: Admin-Bereich sperren
+        add_filter( 'show_admin_bar', array( $this, 'hide_admin_bar_for_soulmakers' ) );
+        add_action( 'admin_init', array( $this, 'block_admin_for_soulmakers' ) );
+    }
+
+    /**
+     * Admin-Bar für Soulmaker-Rolle ausblenden
+     *
+     * @param bool $show Ob Admin-Bar angezeigt werden soll.
+     * @return bool
+     */
+    public function hide_admin_bar_for_soulmakers( bool $show ): bool {
+        if ( $this->user_is_soulmaker_only() ) {
+            return false;
+        }
+        return $show;
+    }
+
+    /**
+     * Admin-Bereich für Soulmaker-Rolle sperren
+     */
+    public function block_admin_for_soulmakers(): void {
+        if ( wp_doing_ajax() ) {
+            return;
+        }
+
+        if ( $this->user_is_soulmaker_only() ) {
+            wp_redirect( home_url( '/redirect-to-profile' ) );
+            exit;
+        }
+    }
+
+    /**
+     * Prüft ob der User nur die Soulmaker-Rolle hat (keine höheren Rechte)
+     *
+     * @return bool
+     */
+    private function user_is_soulmaker_only(): bool {
+        if ( ! is_user_logged_in() ) {
+            return false;
+        }
+
+        $user = wp_get_current_user();
+
+        // Hat Soulmaker-Rolle und keine Admin-Rechte
+        return in_array( 'soulmaker', (array) $user->roles, true )
+            && ! current_user_can( 'edit_posts' );
     }
 
     /**
