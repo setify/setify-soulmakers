@@ -140,10 +140,26 @@ class Soulmakers_Api {
         }
 
         // Taxonomie "space" zuweisen (falls Term-ID übergeben)
+        $space_assigned = false;
+        $space_error    = null;
+
         if ( ! empty( $params['space'] ) ) {
             $term_id = absint( $params['space'] );
-            if ( $term_id > 0 && term_exists( $term_id, 'space' ) ) {
-                wp_set_object_terms( $post_id, array( $term_id ), 'space', false );
+
+            if ( $term_id > 0 ) {
+                if ( term_exists( $term_id, 'space' ) ) {
+                    $result = wp_set_object_terms( $post_id, array( $term_id ), 'space', false );
+
+                    if ( ! is_wp_error( $result ) ) {
+                        $space_assigned = true;
+                    } else {
+                        $space_error = $result->get_error_message();
+                    }
+                } else {
+                    $space_error = sprintf( 'Term-ID %d existiert nicht in Taxonomie "space"', $term_id );
+                }
+            } else {
+                $space_error = sprintf( 'Ungültige Term-ID: %s', $params['space'] );
             }
         }
 
@@ -153,14 +169,21 @@ class Soulmakers_Api {
         // E-Mail an Soulmaker senden
         $this->send_profile_created_email( $params, $post_id );
 
-        return new WP_REST_Response(
-            array(
-                'success' => true,
-                'post_id' => $post_id,
-                'message' => __( 'Soulmaker erfolgreich erstellt', 'soulmakers' ),
+        // Response mit Details
+        $response_data = array(
+            'success' => true,
+            'post_id' => $post_id,
+            'message' => __( 'Soulmaker erfolgreich erstellt', 'soulmakers' ),
+            'space'   => array(
+                'assigned' => $space_assigned,
             ),
-            201
         );
+
+        if ( $space_error ) {
+            $response_data['space']['error'] = $space_error;
+        }
+
+        return new WP_REST_Response( $response_data, 201 );
     }
 
     /**
