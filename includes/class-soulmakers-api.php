@@ -139,6 +139,14 @@ class Soulmakers_Api {
             );
         }
 
+        // Taxonomie "space" zuweisen (falls Term-ID übergeben)
+        if ( ! empty( $params['space'] ) ) {
+            $term_id = absint( $params['space'] );
+            if ( $term_id > 0 ) {
+                wp_set_object_terms( $post_id, $term_id, 'space' );
+            }
+        }
+
         // ACF-Felder speichern
         $this->save_acf_fields( $post_id, $params );
 
