@@ -142,8 +142,8 @@ class Soulmakers_Api {
         // Taxonomie "space" zuweisen (falls Term-ID übergeben)
         if ( ! empty( $params['space'] ) ) {
             $term_id = absint( $params['space'] );
-            if ( $term_id > 0 ) {
-                wp_set_object_terms( $post_id, $term_id, 'space' );
+            if ( $term_id > 0 && term_exists( $term_id, 'space' ) ) {
+                wp_set_object_terms( $post_id, array( $term_id ), 'space', false );
             }
         }
 
